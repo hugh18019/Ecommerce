@@ -18,19 +18,28 @@ import { idbPromise } from '../utils/helpers';
 import spinner from '../assets/spinner.gif';
 
 function Detail() {
-  const [state, dispatch] = useStoreContext();
+  // const [state, dispatch] = useStoreContext();
   const { id } = useParams();
 
-  const [currentProduct, setCurrentProduct] = useState({});
+  // const [currentProduct, setCurrentProduct] = useState({});
+  const currentProduct = useSelector((state) => state.currentProduct);
+  const dispatch = useDispatch();
 
   const { loading, data } = useQuery(QUERY_PRODUCTS);
 
-  const { products, cart } = state;
+  // const { products, cart } = state;
+  const products = useSelector((state) => state.products);
+  const cart = useSelector((state) => state.cart);
 
   useEffect(() => {
     // already in global store
     if (products.length) {
-      setCurrentProduct(products.find((product) => product._id === id));
+      // react
+      const c = products.find((product) => product._id === id);
+      dispatch({
+        type: UPDATE_CURRENT_PRODUCT,
+        currentProduct: c,
+      });
     }
     // retrieved from server
     else if (data) {
