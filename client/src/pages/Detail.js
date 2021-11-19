@@ -2,13 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 
+import { useSelector, useDispatch } from 'react-redux';
+
 import Cart from '../components/Cart';
-import { useStoreContext } from '../utils/GlobalState';
+
 import {
   REMOVE_FROM_CART,
   UPDATE_CART_QUANTITY,
   ADD_TO_CART,
   UPDATE_PRODUCTS,
+  UPDATE_CURRENT_PRODUCT,
 } from '../utils/actions';
 import { QUERY_PRODUCTS } from '../utils/queries';
 import { idbPromise } from '../utils/helpers';
@@ -84,8 +87,8 @@ function Detail() {
   return (
     <>
       {currentProduct && cart ? (
-        <div className="container my-1">
-          <Link to="/">← Back to Products</Link>
+        <div className='container my-1'>
+          <Link to='/'>← Back to Products</Link>
 
           <h2>{currentProduct.name}</h2>
 
@@ -108,7 +111,7 @@ function Detail() {
           />
         </div>
       ) : null}
-      {loading ? <img src={spinner} alt="loading" /> : null}
+      {loading ? <img src={spinner} alt='loading' /> : null}
       <Cart />
     </>
   );
